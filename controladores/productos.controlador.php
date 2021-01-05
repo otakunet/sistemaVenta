@@ -269,17 +269,19 @@ class ControladorProductos{
 					$diferenicaStock = $_POST["editarStock"] - $respuestaStock["stock"];
 
 					$nuevoStock = $respuestaStock["stock"] + $diferenicaStock;
-					//$totalPrecioCompra = $respuestaStock["precio_total_compra"] + ($diferenicaStock * $_POST["editarPrecioCompra"]);
+					$totalPrecioCompra = $respuestaStock["precio_compra_total"] + ($diferenicaStock * $_POST["editarPrecioCompra"]);
 
 					
 
 					echo '<script>console.log("si funciona entrando a la desigualdad");</script>';
 					echo '<script>console.log("nuevo stock'.$diferenicaStock.'");</script>';
+					echo '<script>console.log("nuevo stock'.$totalPrecioCompra.'");</script>';
 
 					$datos = array("id_categoria" => $_POST["editarCategoria"],
 							   "codigo" => $_POST["editarCodigo"],
 							   "descripcion" => $_POST["editarDescripcion"],
 							   "stock" => $nuevoStock,
+							   "precio_compra_total" => $totalPrecioCompra,
 							   "precio_compra" => $_POST["editarPrecioCompra"],
 							   "precio_venta" => $_POST["editarPrecioVenta"],
 							   "imagen" => $ruta);
@@ -447,7 +449,7 @@ class ControladorProductos{
 
 				swal({
 					  type: "success",
-					  title: "'. $respuesta['respuesta1'][0][1] .'",
+					  title: "Se ha actualizado el precio de los productos",
 					  showConfirmButton: true,
 					  confirmButtonText: "Cerrar"
 					  }).then(function(result){

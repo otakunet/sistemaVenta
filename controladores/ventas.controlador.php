@@ -117,10 +117,17 @@ class ControladorVentas{
 
 			$duplicadoCodigo = ModeloVentas::mdlMostrarVentas($tabla, $itemCod, $valorCog);
 
-			if($duplicadoCodigo[8] == $_POST["listaMetodoPago"]){
+			if($duplicadoCodigo[8] == 'Efectivo'){
 
-				$_POST["listaMetodoPago"] = $duplicadoCodigo[8] . "1" ;
+				$_POST["listaMetodoPago"] = 'Efectivo' ;
 
+			}else if($duplicadoCodigo[8] == $_POST["listaMetodoPago"]){
+
+				// CREA UN NUMEARO ALEATORIO SI ES IGUAL
+
+				$numAleatorio = mt_rand(1,100);
+
+				$_POST["listaMetodoPago"] = $_POST["listaMetodoPago"] . "$numAleatorio";
 			}
 
 			$datos = array("id_vendedor"=>$_POST["idVendedor"],
@@ -136,18 +143,20 @@ class ControladorVentas{
 
 			if($respuesta == "ok"){
 
-				$existeImpresora = new ExisteImpresoraWindows();
-				$impresora = "impresora";// el nombre cambia por el tipo de impresora.
-
-				if($existeImpresora->verificarImpresora($impresora, false)){ 
 				/*=============================================
 				INCIAMOS EL PROCESO PARA IMPRIMIR
 				=============================================*/	
 
+				/*  AQUI COMIENZA EL CODIGO PARA IMPRIMIR
+
+				$existeImpresora = new ExisteImpresoraWindows();
+
 				$elp = new ImprimirEpl();
 
-				$texto = new Texto();
+				$impresora = "impresora";// el nombre cambia por el tipo de impresora.
 
+				if($existeImpresora->verificarImpresora($impresora, false)){ 
+			
 				//Fecha de la factura
 				$etiqueta = $elp->escribirTexto(date("Y-m-d H:i:s"), 170, 10, 1, false, 0, 3, 3);
 				//Nombre de la empresa
@@ -197,6 +206,7 @@ class ControladorVentas{
 		
 				$elp->imprimir($elp->construirEtiqueta($etiqueta, 1),$impresora, true, false);
 
+				*/
 
 				echo'<script>
 
@@ -244,7 +254,7 @@ class ControladorVentas{
 
 	}
 
-	}
+	
 
 	/*=============================================
 	EDITAR VENTA

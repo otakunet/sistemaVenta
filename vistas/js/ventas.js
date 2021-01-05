@@ -968,14 +968,16 @@ IMPUESTO CHECKEADO
 
 $('#impuesto').on('ifChecked', function(){
 
-	aparecerImpuesto();
+	$('#nuevoImpuestoVenta').prop('readonly',true);
+
 
 })
 
 
 $('#impuesto').on('ifUnchecked', function(){
 
-	 desaparecerImpuesto();
+	$('#nuevoImpuestoVenta').prop('readonly',false);
+
 
 })
 
@@ -991,6 +993,10 @@ $('#nuevoMetodoPago').on('click',function(){
 
 		
 	}else if ($('#nuevoMetodoPago').val() == 'Efectivo') {
+
+		desaparecerImpuesto();
+
+	}else if ($('#nuevoMetodoPago').val() == 'PM') {
 
 		desaparecerImpuesto();
 
@@ -1033,7 +1039,34 @@ function precioDolar(){
 
 		let cadena = division.toString();
 
-		$('#conversionDolar').val(division);
+		let i =  $('#conversionDolar').val(division);
+
+		let ii = Number(i.val());
+
+		let conver =  Math.floor(division);
+		let resta = ii - conver;
+
+		// FORMATO DE MONEDA
+		
+		$("#decimalesDolar").number(true, 2);
+
+	    $("#conversionDolar").number(true, 2);
+
+		// PONEMOS EL VALOR 
+
+		console.log(ii)
+		if (ii < 1) {
+
+			$('#decimalesDolar').val(ii * precioDolar);
+			$('#nuevoTotalVenta').val(ii * precioDolar);
+			
+
+		}else{
+
+			$('#decimalesDolar').val(resta * precioDolar);
+			$('#nuevoTotalVenta').val(resta * precioDolar);
+	
+		}
 
 		
 
@@ -1054,5 +1087,4 @@ $(".formularioVenta").on("click", "button.quitarProducto", function(){
 	precioDolar();
 
 })
-
 
